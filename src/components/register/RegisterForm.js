@@ -1,8 +1,10 @@
-import { FormControl, TextField } from "@mui/material";
+import { Button, FormControl, TextField } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useForm } from "../../application/hook/useForm";
+import { authentificateUser } from "../../redux/slices/userSlice";
 
-const generateRegisterFormValues = () => {
+export const generateRegisterFormValues = () => {
   return {
     firstName: {
       value: "",
@@ -13,10 +15,10 @@ const generateRegisterFormValues = () => {
     },
     lastName: {
       value: "",
-      required: true, 
+      required: true,
       error: "",
       validateInput: (lastName) =>
-        lastName.length > 3
+        lastName.length > 1
           ? null
           : "last name should have at least 1 characters",
     },
@@ -41,11 +43,33 @@ const generateRegisterFormValues = () => {
 
 export const RegisterForm = () => {
   const { formValues, onInputChange } = useForm({
-    defaultFormValues:generateRegisterFormValues(),
+    defaultFormValues: generateRegisterFormValues(),
   });
+
+  const dispatch = useDispatch();
+
+  const onRegister = (e) => {
+    e.preventDefault();
+    const firstName = formValues.firstName.value;
+    const lastName = formValues.lastName.value;
+    const email = formValues.email.value;
+    const password = formValues.password.value;
+    dispatch(
+      authentificateUser({
+        formValues: {
+          firstName,
+          lastName,
+          email,
+          password,
+        },
+        isLogin: false,
+      })
+    );
+  };
   return (
     <FormControl fullWidth>
       <TextField
+        variant="outlined"
         name="firstName"
         label="First Name"
         value={formValues.firstName.value}
@@ -53,6 +77,34 @@ export const RegisterForm = () => {
         error={!!formValues.firstName.error}
         helperText={formValues.firstName.error}
       />
+      <TextField
+        variant="outlined"
+        name="lastName"
+        label="Last Name"
+        value={formValues.lastName.value}
+        onChange={onInputChange}
+        error={!!formValues.lastName.error}
+        helperText={formValues.lastName.error}
+      />
+      <TextField
+        variant="outlined"
+        name="email"
+        label="Email Address"
+        value={formValues.email.value}
+        onChange={onInputChange}
+        error={!!formValues.email.error}
+        helperText={formValues.email.error}
+      />
+      <TextField
+        variant="outlined"
+        name="password"
+        label="Password"
+        value={formValues.password.value}
+        onChange={onInputChange}
+        error={!!formValues.password.error}
+        helperText={formValues.password.error}
+      />
+      <Button onClick={onRegister}>Register</Button>
     </FormControl>
   );
 };
