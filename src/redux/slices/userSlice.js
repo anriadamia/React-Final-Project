@@ -3,15 +3,15 @@ import { axiosInstance } from "../../application";
 
 export const authentificateUser=createAsyncThunk(
     "user/authenticateUser",
-    async(values)=>{
+    async(values, {rejectWithValue})=>{
 try {
     const route=`/users/${values.isLogin ? "login":"register"}`;
     const {data}=await axiosInstance.post(route, values.formValues);
     localStorage.setItem("token", data.token);
-    localStorage.setItem("refresh_token", data.refreshToken);
+    localStorage.setItem("refresh_token", data.refreshtoken);
     return data;
 } catch (error) {
-    return "authentication_failed";
+    return rejectWithValue("error during login");
 }
     }
 );
@@ -38,6 +38,7 @@ const userSlice=createSlice(
             builder.addCase(authentificateUser.fulfilled,(state,action)=>{
                 state.loading=false;
                 state.userInfo=action.payload.user; 
+                state.error=null;
             });
             builder.addCase(authentificateUser.rejected,(state,action)=>{
                 state.loading=false;
