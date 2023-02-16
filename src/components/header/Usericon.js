@@ -38,7 +38,12 @@ export const Usericon = () => {
           onClose={() => setAnchor(null)}
         >
           {!!userData ? (
-            <MenuItem onClick={() => dispatch(logoutUser())}>
+            <MenuItem
+              onClick={() => {
+                dispatch(logoutUser());
+                navigate("/");
+              }}
+            >
               <Button>logout</Button>
             </MenuItem>
           ) : (
@@ -51,9 +56,11 @@ export const Usericon = () => {
               </MenuItem>
             </Box>
           )}
-          {isUserAdmin(userData) && (<MenuItem onClick={() => {}}>
-            <Button>Add Product</Button>
-            </MenuItem>)}
+          {isUserAdmin(userData) && (
+            <MenuItem onClick={() => navigate("/products/new")}>
+              <Button>Add Product</Button>
+            </MenuItem>
+          )}
         </Menu>
       </Box>
     </Box>
