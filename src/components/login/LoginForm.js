@@ -1,6 +1,7 @@
 import { Button, FormControl, TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "../../application/hook/useForm";
 import { authentificateUser } from "../../redux/slices/userSlice";
 
@@ -25,10 +26,11 @@ const generateRegisterFormValues = () => {
 
 export const LoginForm = () => {
   const { formValues: loginFormValues, onInputChange } = useForm({
-    defaultFormValues:generateRegisterFormValues(),
+    defaultFormValues: generateRegisterFormValues(),
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onLogin = (e) => {
     e.preventDefault();
@@ -42,7 +44,9 @@ export const LoginForm = () => {
           password,
         },
       })
-    );
+    )
+      .unwrap()
+      .then(() => navigate("/"));
   };
   return (
     <FormControl fullWidth>
@@ -51,7 +55,8 @@ export const LoginForm = () => {
         label="email"
         value={loginFormValues.email.value}
         onChange={onInputChange}
-        error={loginFormValues.email.error}
+        error={!!loginFormValues.email.error}
+        helperText={loginFormValues.email.error}
       />
       <TextField
         name="password"
@@ -59,11 +64,10 @@ export const LoginForm = () => {
         label="password"
         value={loginFormValues.password.value}
         onChange={onInputChange}
-        error={loginFormValues.password.error}
+        error={!!loginFormValues.password.error}
+        helperText={loginFormValues.password.error}
       />
       <Button onClick={onLogin}>Login</Button>
     </FormControl>
   );
 };
-
-

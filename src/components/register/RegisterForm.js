@@ -1,6 +1,7 @@
 import { Button, FormControl, TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "../../application/hook/useForm";
 import { authentificateUser } from "../../redux/slices/userSlice";
 
@@ -47,6 +48,7 @@ export const RegisterForm = () => {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onRegister = (e) => {
     e.preventDefault();
@@ -64,7 +66,9 @@ export const RegisterForm = () => {
         },
         isLogin: false,
       })
-    );
+    )
+      .unwrap()
+      .then(() => navigate("/"));
   };
   return (
     <FormControl fullWidth>

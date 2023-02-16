@@ -3,6 +3,8 @@ import { userReducer } from "./slices/userSlice";
 import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
+import { useSelect } from "@mui/base";
+import { useSelector } from "react-redux";
 const persistConfig = {
   key: "root",
   storage,
@@ -27,3 +29,5 @@ export const persistor = persistStore(store);
 
 export { authentificateUser } from "./slices/userSlice";
 export { logoutUser } from "./slices/userSlice";
+
+export const useUserInfo=()=>useSelector((state)=>state.user.userInfo);
