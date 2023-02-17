@@ -1,6 +1,30 @@
-import { Card, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  Grid,
+  Rating,
+  styled,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { isUserAdmin } from "../../application";
+import { setSelectedProduct, useUserInfo } from "../../redux";
+
+const StyledCardContent = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  padding: "0 2px",
+}));
+
+const StyledBox = styled(Box)(() => ({
+  display: "flex",
+  justifyContent: "space-between",
+}));
 
 export const ProductCard = ({
   name,
@@ -12,10 +36,29 @@ export const ProductCard = ({
   brand,
   averageRating,
 }) => {
+  const userInfo = useUserInfo();
+  const navigate = useNavigate();
+  const dispatch=useDispatch();
+  const onEdit = () => {
+    dispatch(
+      setSelectedProduct({
+        name,
+        _id,
+        image,
+        price,
+        description,
+        category,
+        brand,
+        averageRating,
+      })
+    );
+    navigate(`/products/edit/${name}`);
+  };
+
   return (
     <Grid item>
       <Card>
-        <Link to={`/singleproductpage`}>
+        <Link to={`/singleproductpage`} style={{ textDecoration: "none" }}>
           <img
             src={image}
             alt={`${category}-${name}`}
@@ -23,8 +66,18 @@ export const ProductCard = ({
             height="200px"
             style={{ objectFit: "cover" }}
           />
-          <h1>{name}</h1>
+          <StyledCardContent>
+            <Typography>{name}</Typography>
+            <Typography>{price}$ </Typography>
+          </StyledCardContent>
         </Link>
+        <CardActions>
+          <Rating value={averageRating} />
+          <StyledBox>
+            <Button>Add to card</Button>
+            {isUserAdmin(userInfo) && <Button onClick={onEdit}>Edit</Button>}
+          </StyledBox>
+        </CardActions>
       </Card>
     </Grid>
   );
