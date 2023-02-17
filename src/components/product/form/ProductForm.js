@@ -1,6 +1,14 @@
 import { Button, FormControl, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "../../../application/hook/useForm";
+import FileBase from "react-file-base64";
+import { useDispatch } from "react-redux";
+import {
+  saveProduct,
+  setSelectedProduct,
+  useSelectedProduct,
+} from "../../../redux";
+import { useNavigate } from "react-router-dom";
 
 const generateAddProductFormValues = (selectedProduct) => {
   return {
@@ -48,11 +56,48 @@ const generateAddProductFormValues = (selectedProduct) => {
 };
 
 export const ProductForm = () => {
-  const { formValues: productFormValues, onInputChange } = useForm({
+  const {
+    formValues: productFormValues,
+    onInputChange,
+    setFormValues,
+  } = useForm({
     defaultFormValues: generateAddProductFormValues(),
   });
+  const selectedProduct = useSelectedProduct();
+  const [image, setImage] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const onSaveProduct = () => {};
+  const onSaveProduct = () => {
+    const name = productFormValues.name.value;
+    const description = productFormValues.description.value;
+    const brand = productFormValues.brand.value;
+    const category = productFormValues.category.value;
+    const price = productFormValues.price.value;
+    dispatch(
+      saveProduct({
+        product: { name, description, brand, category, price, image },
+        isUpdating: !!selectedProduct,
+        id: selectedProduct?._id,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      });
+  };
+  useEffect(() => {
+    if (selectedProduct) {
+      setFormValues(generateAddProductFormValues(selectedProduct));
+    }
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSelectedProduct(null));
+    };
+  }, []);
+
   return (
     <FormControl fullWidth>
       <TextField
@@ -94,6 +139,13 @@ export const ProductForm = () => {
         error={!!productFormValues.price.error}
         helperText={productFormValues.price.error}
         label="price"
+      />
+      <FileBase
+        type="file"
+        multiple={false}
+        onDone={({ base64 }) => {
+          setImage(base64);
+        }}
       />
       <Button onClick={onSaveProduct}>save</Button>
     </FormControl>
