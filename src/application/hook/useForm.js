@@ -25,7 +25,7 @@ const checkButtonDisable=(values)=>{
             return true;
         }
     }
-}
+};
 
 const clearForm=(obj)=>{
     setFormValues(obj);
