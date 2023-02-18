@@ -89,6 +89,7 @@ export const ProductForm = () => {
   useEffect(() => {
     if (selectedProduct) {
       setFormValues(generateAddProductFormValues(selectedProduct));
+      setImage(selectedProduct.image);
     }
   }, [selectedProduct]);
 

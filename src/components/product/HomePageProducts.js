@@ -8,7 +8,7 @@ export const HomePageProducts = () => {
   return (
     <GridComponent>
       {homePageProducts.map((product) => {
-        return <ProductCard key={product._id} {...product}/>;
+        return <ProductCard key={product._id} {...product} product={product}/>;
       })}
     </GridComponent>
   );

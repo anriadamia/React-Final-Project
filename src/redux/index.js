@@ -5,6 +5,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import { useSelector } from "react-redux";
 import { productReducer } from "./slices/productSlice";
+import { cartReducer } from "./slices/cartSlice";
 const persistConfig = {
   key: "root",
   storage,
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   product: productReducer,
+  cart: cartReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -36,6 +38,8 @@ export {
   setSelectedProduct,
 } from "./slices/productSlice";
 
+export { addToCart, removeFromCart, clearCart } from "./slices/cartSlice";
+
 export const useUserInfo = () => useSelector((state) => state.user.userInfo);
 
 export const useSelectedProduct = () =>
@@ -43,3 +47,5 @@ export const useSelectedProduct = () =>
 
 export const useHomePageProducts = () =>
   useSelector((state) => state.product.homePageProducts);
+
+export const useCart = () => useSelector((state) => state.cart.cartItems);

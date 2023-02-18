@@ -12,7 +12,13 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { isUserAdmin } from "../../application";
-import { setSelectedProduct, useUserInfo } from "../../redux";
+import {
+  addToCart,
+  removeFromCart,
+  setSelectedProduct,
+  useCart,
+  useUserInfo,
+} from "../../redux";
 
 const StyledCardContent = styled(Box)(() => ({
   display: "flex",
@@ -25,7 +31,7 @@ const StyledBox = styled(Box)(() => ({
   display: "flex",
   justifyContent: "space-between",
 }));
-
+  
 export const ProductCard = ({
   name,
   _id,
@@ -35,36 +41,32 @@ export const ProductCard = ({
   category,
   brand,
   averageRating,
+  product,
 }) => {
   const userInfo = useUserInfo();
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  const cartItems = useCart();
+  const isProductInCart = cartItems?.find((item) => item.product._id === _id);
   const onEdit = () => {
-    dispatch(
-      setSelectedProduct({
-        name,
-        _id,
-        image,
-        price,
-        description,
-        category,
-        brand,
-        averageRating,
-      })
-    );
+    dispatch(setSelectedProduct(product));
     navigate(`/products/edit/${name}`);
+  };
+
+  const onAddtoCart = () => {
+    dispatch(addToCart(product));
   };
 
   return (
     <Grid item>
-      <Card>
+      <Card sx={{ width: 350, borderRadius: 3 }}>
         <Link to={`/singleproductpage`} style={{ textDecoration: "none" }}>
           <img
             src={image}
             alt={`${category}-${name}`}
             width="100%"
             height="200px"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
           />
           <StyledCardContent>
             <Typography>{name}</Typography>
@@ -74,7 +76,16 @@ export const ProductCard = ({
         <CardActions>
           <Rating value={averageRating} />
           <StyledBox>
-            <Button>Add to card</Button>
+            {isProductInCart ? (
+              <>
+                <Button onClick={() => dispatch(removeFromCart(_id))}>-</Button>
+                <Typography>{isProductInCart.quantity}</Typography>
+                <Button onClick={onAddtoCart}>+</Button>
+              </>
+            ) : (
+              <Button onClick={onAddtoCart}>Add to card</Button>
+            )}
+
             {isUserAdmin(userInfo) && <Button onClick={onEdit}>Edit</Button>}
           </StyledBox>
         </CardActions>
