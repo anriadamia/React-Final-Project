@@ -1,12 +1,13 @@
-import { Box, Drawer, styled, Typography } from "@mui/material";
+import { Box, Button, Drawer, styled, Typography } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { clearCart, saveCart, useUserInfo } from "../../redux";
 
 const StyledBox = styled(Box)(() => ({
   width: 400,
   display: "flex",
-  justifyContent: "space-between",
   alignItems: "center",
-  padding:"5px 10px",
+  padding: "5px 10px",
 }));
 
 export const CartDrawer = ({
@@ -14,6 +15,11 @@ export const CartDrawer = ({
   setIsCartDrawerOpen,
   cartItems,
 }) => {
+  const userInfo = useUserInfo();
+  const dispatch = useDispatch();
+  const onSaveCart = () => {
+    dispatch(saveCart({ userId: userInfo?._id, cartItems }));
+  };
   return (
     <Drawer
       open={isCartDrawerOpen}
@@ -25,13 +31,35 @@ export const CartDrawer = ({
         const { price, name, _id, image } = product;
         return (
           <StyledBox key={_id}>
-            <img src={image} width="50px" height="50px" style={{objectFit:"cover"}}/>
-            <Typography>{name}</Typography>
-            <Typography>{quantity}</Typography>
-            <Typography>total:${price * quantity}</Typography>
+            <img
+              src={image}
+              alt=""
+              width="100px"
+              height="100px"
+              style={{ objectFit: "cover", borderRadius: 5 }}
+            />
+            <Box sx={{ paddingLeft: 2 }}>
+              <Typography>{name}</Typography>
+              <Typography>Quantity:{quantity}</Typography>
+              <Typography>Total Price:{price * quantity}$</Typography>
+            </Box>
           </StyledBox>
         );
       })}
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Button
+          onClick={() => {
+            dispatch(clearCart());
+            setIsCartDrawerOpen(false);
+            onSaveCart();
+          }}
+        >
+          Clear Cart
+        </Button>
+        {userInfo && (
+          <Button onClick={onSaveCart}>Save Cart</Button>
+        )}
+      </Box>
     </Drawer>
   );
 };

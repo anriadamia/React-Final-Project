@@ -38,7 +38,13 @@ export {
   setSelectedProduct,
 } from "./slices/productSlice";
 
-export { addToCart, removeFromCart, clearCart } from "./slices/cartSlice";
+export {
+  fetchCart,
+  saveCart,
+  addToCart,
+  removeFromCart,
+  clearCart,
+} from "./slices/cartSlice";
 
 export const useUserInfo = () => useSelector((state) => state.user.userInfo);
 
