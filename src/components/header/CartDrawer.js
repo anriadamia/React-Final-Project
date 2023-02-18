@@ -17,8 +17,10 @@ export const CartDrawer = ({
 }) => {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
-  const onSaveCart = () => {
-    dispatch(saveCart({ userId: userInfo?._id, cartItems }));
+  const onSaveCart = (isClear) => {
+    dispatch(
+      saveCart({ userId: userInfo?._id, cartItems: isClear ? [] : cartItems })
+    );
   };
   return (
     <Drawer
@@ -51,13 +53,13 @@ export const CartDrawer = ({
           onClick={() => {
             dispatch(clearCart());
             setIsCartDrawerOpen(false);
-            onSaveCart();
+            onSaveCart(true);
           }}
         >
           Clear Cart
         </Button>
         {userInfo && (
-          <Button onClick={onSaveCart}>Save Cart</Button>
+          <Button onClick={() => onSaveCart(false)}>Save Cart</Button>
         )}
       </Box>
     </Drawer>
