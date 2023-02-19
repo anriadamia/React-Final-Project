@@ -22,7 +22,7 @@ const generateAddProductFormValues = (selectedProduct) => {
     description: {
       value: selectedProduct?.description || "",
       required: true,
-      eerror: "",
+      error: "",
       validateInput: (description) =>
         description.length > 1
           ? null
