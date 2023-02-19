@@ -16,6 +16,6 @@ axiosInstance.interceptors.request.use(async (req) => {
     refresh_token,
   });
   localStorage.setItem("token", data.token);
-  req.headers.Authorizatiom=`Bearer ${data.token}`;
+  req.headers.Authorization=`Bearer ${data.token}`;
   return req; 
 });
