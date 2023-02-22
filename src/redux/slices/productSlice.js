@@ -35,6 +35,7 @@ const productSlice = createSlice({
     homePageProducts: [],
     error: null,
     selectedProduct: null,
+    categories: [],
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -59,6 +60,7 @@ const productSlice = createSlice({
     builder.addCase(fetchHomePageProducts.fulfilled, (state, action) => {
       state.loading = false;
       state.homePageProducts = action.payload.products;
+      state.categories = action.payload.categories;
       state.error = null;
     });
     builder.addCase(fetchHomePageProducts.rejected, (state, action) => {

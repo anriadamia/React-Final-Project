@@ -53,5 +53,6 @@ export const useSelectedProduct = () =>
 
 export const useHomePageProducts = () =>
   useSelector((state) => state.product.homePageProducts);
-
+export const useCategories = () =>
+  useSelector((state) => state.product.categories);
 export const useCart = () => useSelector((state) => state.cart.cartItems);

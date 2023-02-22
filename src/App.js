@@ -2,10 +2,20 @@ import "./App.css";
 import React, { useEffect } from "react";
 import { RoutesComponent } from "./Routes";
 import { Header } from "./components/header";
-import { Box } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { fetchHomePageProducts, useUserInfo } from "./redux";
 import { fetchCart } from "./redux/slices/cartSlice";
+import { Sidebar } from "./components/sidebar/Sidebar";
+
+
+const StyledContentContainer = styled(Box)(() => ({
+  padding: "0 0 0 37px",
+  width: "calc(100%-255px)",
+  marginLeft: "255px",
+  marginTop: "100px",
+  minHeight: "100vh",
+}));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,10 +29,11 @@ const App = () => {
     }
   });
   return (
-    <div>
+    <Box>
+      <Sidebar/>
       <Header />
-      <Box sx={{ marginTop: 10 }}> {RoutesComponent()}</Box>
-    </div>
+      <StyledContentContainer>{RoutesComponent()}</StyledContentContainer> 
+    </Box>
   );
 };
 

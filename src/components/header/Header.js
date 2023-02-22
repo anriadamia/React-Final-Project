@@ -10,10 +10,8 @@ import { useState } from "react";
 
 const StyledAppBar = styled(AppBar)(() => ({
   background: "#fff",
-  color: "#103866",
-  width: "100%",
-  padding: "0 100px 0px 30px",
-  display: "flex",
+  width: "calc(100%-255px)",
+  padding: "0 37px 0 30px",
 }));
 
 const StyledToolBar = styled(Toolbar)(() => ({
