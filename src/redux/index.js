@@ -36,6 +36,7 @@ export {
   saveProduct,
   fetchHomePageProducts,
   setSelectedProduct,
+  fetchCategoryProducts,
 } from "./slices/productSlice";
 
 export {
@@ -56,3 +57,5 @@ export const useHomePageProducts = () =>
 export const useCategories = () =>
   useSelector((state) => state.product.categories);
 export const useCart = () => useSelector((state) => state.cart.cartItems);
+export const useCategoryProducts = () =>
+  useSelector((state) => state.product.categoryProducts);

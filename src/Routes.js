@@ -1,6 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import { isUserAdmin, ProtectedRoute } from "./application";
-import { HomePage, LoginPage, ProductFormPage, RegisterPage } from "./Pages";
+import {
+  CategoryProductsPage,
+  HomePage,
+  LoginPage,
+  ProductFormPage,
+  RegisterPage,
+} from "./Pages";
 import { useUserInfo } from "./redux";
 
 export const RoutesComponent = () => {
@@ -25,6 +31,10 @@ export const RoutesComponent = () => {
             <ProductFormPage />
           </ProtectedRoute>
         }
+      />
+      <Route
+        path="/products/categories/:categoryName"
+        element={<CategoryProductsPage/>}
       />
     </Routes>
   );

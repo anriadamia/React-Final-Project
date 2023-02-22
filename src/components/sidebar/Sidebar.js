@@ -1,5 +1,6 @@
 import {
   Box,
+  Divider,
   Drawer,
   List,
   ListItem,
@@ -24,7 +25,7 @@ export const Sidebar = () => {
       sx={{
         display: { xs: "block" },
         "& .MuiDrawer-paper": {
-          width: "255px",
+          width: "200px",
           height: "100%",
         },
       }}
@@ -36,12 +37,13 @@ export const Sidebar = () => {
           const { _id, name } = item;
           return (
             <React.Fragment key={_id}>
-              <Link to="">
+              <Link to={`/products/categories/${name}`}>
                 <Box sx={{ display: "flex" }}>
                   <StyledListItem>
                     <ListItemText secondary={name} />
                   </StyledListItem>
                 </Box>
+                <Divider></Divider>
               </Link>
             </React.Fragment>
           );
