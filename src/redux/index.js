@@ -67,3 +67,5 @@ export const useSearchResults = () =>
   useSelector((state) => state.product.searchResults);
 export const useSingleProduct = () =>
   useSelector((state) => state.product.singleProduct);
+export const useProductLoading = () =>
+  useSelector((state) => state.product.loading);

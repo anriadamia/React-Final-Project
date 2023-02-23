@@ -6,9 +6,11 @@ import { useDispatch } from "react-redux";
 import {
   saveProduct,
   setSelectedProduct,
+  useProductLoading,
   useSelectedProduct,
 } from "../../../redux";
 import { useNavigate } from "react-router-dom";
+import { LoadingWrapper } from "../../shared";
 
 const generateAddProductFormValues = (selectedProduct) => {
   return {
@@ -67,6 +69,7 @@ export const ProductForm = () => {
   const [image, setImage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isProductLoading = useProductLoading();
 
   const onSaveProduct = () => {
     const name = productFormValues.name.value;
@@ -100,55 +103,57 @@ export const ProductForm = () => {
   }, []);
 
   return (
-    <FormControl fullWidth>
-      <TextField
-        name="name"
-        value={productFormValues.name.value}
-        onChange={onInputChange}
-        error={!!productFormValues.name.error}
-        helperText={productFormValues.name.error}
-        label="name"
-      />
-      <TextField
-        name="description"
-        value={productFormValues.description.value}
-        onChange={onInputChange}
-        error={!!productFormValues.description.error}
-        helperText={productFormValues.description.error}
-        label="description"
-      />
-      <TextField
-        name="category"
-        value={productFormValues.category.value}
-        onChange={onInputChange}
-        error={!!productFormValues.category.error}
-        helperText={productFormValues.category.error}
-        label="category"
-      />
-      <TextField
-        name="brand"
-        value={productFormValues.brand.value}
-        onChange={onInputChange}
-        error={!!productFormValues.brand.error}
-        helperText={productFormValues.brand.error}
-        label="brand"
-      />
-      <TextField
-        name="price"
-        value={productFormValues.price.value}
-        onChange={onInputChange}
-        error={!!productFormValues.price.error}
-        helperText={productFormValues.price.error}
-        label="price"
-      />
-      <FileBase
-        type="file"
-        multiple={false}
-        onDone={({ base64 }) => {
-          setImage(base64);
-        }}
-      />
-      <Button onClick={onSaveProduct}>save</Button>
-    </FormControl>
+    <LoadingWrapper isLoading={isProductLoading}>
+      <FormControl fullWidth>
+        <TextField
+          name="name"
+          value={productFormValues.name.value}
+          onChange={onInputChange}
+          error={!!productFormValues.name.error}
+          helperText={productFormValues.name.error}
+          label="name"
+        />
+        <TextField
+          name="description"
+          value={productFormValues.description.value}
+          onChange={onInputChange}
+          error={!!productFormValues.description.error}
+          helperText={productFormValues.description.error}
+          label="description"
+        />
+        <TextField
+          name="category"
+          value={productFormValues.category.value}
+          onChange={onInputChange}
+          error={!!productFormValues.category.error}
+          helperText={productFormValues.category.error}
+          label="category"
+        />
+        <TextField
+          name="brand"
+          value={productFormValues.brand.value}
+          onChange={onInputChange}
+          error={!!productFormValues.brand.error}
+          helperText={productFormValues.brand.error}
+          label="brand"
+        />
+        <TextField
+          name="price"
+          value={productFormValues.price.value}
+          onChange={onInputChange}
+          error={!!productFormValues.price.error}
+          helperText={productFormValues.price.error}
+          label="price"
+        />
+        <FileBase
+          type="file"
+          multiple={false}
+          onDone={({ base64 }) => {
+            setImage(base64);
+          }}
+        />
+        <Button onClick={onSaveProduct}>save</Button>
+      </FormControl>
+    </LoadingWrapper>
   );
 };
