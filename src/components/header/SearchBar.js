@@ -2,7 +2,11 @@ import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { queryProducts, useSearchResults } from "../../redux";
+import {
+  queryProducts,
+  setSearchProducts,
+  useSearchResults,
+} from "../../redux";
 
 export const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,8 +14,12 @@ export const SearchBar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     const timerId = setTimeout(() => {
+      if (searchQuery) {
+        dispatch(queryProducts(searchQuery));
+      } else {
+        dispatch(setSearchProducts());
+      }
       dispatch(queryProducts(searchQuery));
     }, 1000);
     return () => {
@@ -26,14 +34,18 @@ export const SearchBar = () => {
       options={searchResults}
       getOptionLabel={(option) => option.name}
       renderOption={(_, option) => {
-        const { name, category, _id, price,image } = option;
+        const { name, category, _id, price, image } = option;
         return (
-          <Link to="" key={_id} style={{ textDecoration: 'none', color:"black"}}>
+          <Link
+            to={`/products/categories/${category}/${name}`}
+            key={_id}
+            style={{ textDecoration: "none", color: "black" }}
+          >
             <Box textAlign={"center"}>
-              <Typography >{name}</Typography>
-              <Typography >{price}$</Typography>
+              <Typography>{name}</Typography>
+              <Typography>{price}$</Typography>
               <Typography>
-                <img src={image} width="100%"/>
+                <img src={image} width="100%" />
               </Typography>
             </Box>
           </Link>

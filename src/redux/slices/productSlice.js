@@ -1,4 +1,6 @@
+import { create } from "@mui/material/styles/createTransitions";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 import { axiosInstance } from "../../application";
 
 export const saveProduct = createAsyncThunk(
@@ -52,6 +54,27 @@ export const queryProducts = createAsyncThunk(
   }
 );
 
+export const rateProduct = createAsyncThunk(
+  "product/rateProduct",
+  async (
+    { productId, userId, rating, url, isHome },
+    { rejectWithValue, dispatch }
+  ) => {
+    try {
+      await axiosInstance.post(`/products/${productId}/users/${userId}/rate`, {
+        rating,
+      });
+      if (isHome) {
+        dispatch(fetchHomePageProducts());
+      } else {
+        dispatch(fetchCategoryProducts(url));
+      }
+    } catch (error) {
+      return rejectWithValue("error during rating product");
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -66,6 +89,9 @@ const productSlice = createSlice({
   reducers: {
     setSelectedProduct: (state, action) => {
       state.selectedProduct = action.payload;
+    },
+    setSearchProducts: (state) => {
+      state.searchResults = [];
     },
   },
   extraReducers: (builder) => {
@@ -116,4 +142,4 @@ const productSlice = createSlice({
 });
 
 export const productReducer = productSlice.reducer;
-export const { setSelectedProduct } = productSlice.actions;
+export const { setSelectedProduct, setSearchProducts } = productSlice.actions;

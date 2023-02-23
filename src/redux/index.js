@@ -38,6 +38,8 @@ export {
   setSelectedProduct,
   fetchCategoryProducts,
   queryProducts,
+  setSearchProducts,
+  rateProduct,
 } from "./slices/productSlice";
 
 export {

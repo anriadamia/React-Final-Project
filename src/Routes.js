@@ -6,6 +6,7 @@ import {
   LoginPage,
   ProductFormPage,
   RegisterPage,
+  SingleProductPage,
 } from "./Pages";
 import { useUserInfo } from "./redux";
 
@@ -36,6 +37,11 @@ export const RoutesComponent = () => {
         path="/products/categories/:categoryName"
         element={<CategoryProductsPage/>}
       />
+      <Route
+        path="/products/categories/:categoryName/:name"
+        element={<SingleProductPage/>}
+      />
     </Routes>
   );
 };
+ 
