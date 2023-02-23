@@ -73,7 +73,8 @@ export const RegisterForm = () => {
   return (
     <FormControl fullWidth>
       <TextField
-        variant="outlined"
+        variant="standard"
+        margin="normal"
         name="firstName"
         label="First Name"
         value={formValues.firstName.value}
@@ -82,7 +83,8 @@ export const RegisterForm = () => {
         helperText={formValues.firstName.error}
       />
       <TextField
-        variant="outlined"
+        variant="standard"
+        margin="normal"
         name="lastName"
         label="Last Name"
         value={formValues.lastName.value}
@@ -91,7 +93,8 @@ export const RegisterForm = () => {
         helperText={formValues.lastName.error}
       />
       <TextField
-        variant="outlined"
+        variant="standard"
+        margin="normal"
         name="email"
         label="Email Address"
         value={formValues.email.value}
@@ -100,7 +103,8 @@ export const RegisterForm = () => {
         helperText={formValues.email.error}
       />
       <TextField
-        variant="outlined"
+        variant="standard"
+        margin="normal"
         name="password"
         label="Password"
         value={formValues.password.value}

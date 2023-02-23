@@ -50,18 +50,18 @@ export const LoginForm = () => {
   };
   return (
     <FormControl fullWidth>
-      <TextField
+      <TextField variant="standard" margin="normal"
         name="email"
-        label="email"
+        label="Email"
         value={loginFormValues.email.value}
         onChange={onInputChange}
         error={!!loginFormValues.email.error}
         helperText={loginFormValues.email.error}
       />
-      <TextField
+      <TextField variant="standard" margin="normal"
         name="password"
-        type="password"
-        label="password"
+        type="Password"
+        label="Password"
         value={loginFormValues.password.value}
         onChange={onInputChange}
         error={!!loginFormValues.password.error}

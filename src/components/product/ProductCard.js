@@ -18,8 +18,10 @@ import {
   removeFromCart,
   setSelectedProduct,
   useCart,
+  useProductLoading,
   useUserInfo,
 } from "../../redux";
+import { LoadingWrapper } from "../shared";
 
 const StyledCardContent = styled(Box)(() => ({
   display: "flex",

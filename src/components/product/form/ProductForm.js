@@ -106,44 +106,53 @@ export const ProductForm = () => {
     <LoadingWrapper isLoading={isProductLoading}>
       <FormControl fullWidth>
         <TextField
+          variant="standard"
+          margin="normal"
           name="name"
           value={productFormValues.name.value}
           onChange={onInputChange}
           error={!!productFormValues.name.error}
           helperText={productFormValues.name.error}
-          label="name"
+          label="Name"
         />
         <TextField
+          variant="standard"
+          margin="normal"
           name="description"
           value={productFormValues.description.value}
           onChange={onInputChange}
           error={!!productFormValues.description.error}
           helperText={productFormValues.description.error}
-          label="description"
+          label="Description"
         />
-        <TextField
+        <TextField variant="standard"
+        margin="normal"
           name="category"
           value={productFormValues.category.value}
           onChange={onInputChange}
           error={!!productFormValues.category.error}
           helperText={productFormValues.category.error}
-          label="category"
+          label="Category"
         />
         <TextField
+          variant="standard"
+          margin="normal"
           name="brand"
           value={productFormValues.brand.value}
           onChange={onInputChange}
           error={!!productFormValues.brand.error}
           helperText={productFormValues.brand.error}
-          label="brand"
+          label="Brand"
         />
         <TextField
+          variant="standard"
+          margin="normal"
           name="price"
           value={productFormValues.price.value}
           onChange={onInputChange}
           error={!!productFormValues.price.error}
           helperText={productFormValues.price.error}
-          label="price"
+          label="Price"
         />
         <FileBase
           type="file"
