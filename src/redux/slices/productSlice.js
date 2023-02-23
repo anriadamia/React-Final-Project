@@ -75,6 +75,20 @@ export const rateProduct = createAsyncThunk(
   }
 );
 
+export const fetchSingleProduct = createAsyncThunk(
+  "product/fetchSingleProduct",
+  async ({ id, category }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/products/category/${category}/${id}`
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue("could not fetch single product");
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -85,6 +99,7 @@ const productSlice = createSlice({
     categories: [],
     categoryProducts: {},
     searchResults: [],
+    singleProduct:null,
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -130,11 +145,25 @@ const productSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+    builder.addCase(queryProducts.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(queryProducts.fulfilled, (state, action) => {
       state.loading = false;
       state.searchResults = action.payload.products;
     });
     builder.addCase(queryProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(fetchSingleProduct.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchSingleProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      state.singleProduct = action.payload.product;
+    });
+    builder.addCase(fetchSingleProduct.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });

@@ -39,6 +39,7 @@ export const SearchBar = () => {
           <Link
             to={`/products/categories/${category}/${name}`}
             key={_id}
+            state={{ id: _id }}
             style={{ textDecoration: "none", color: "black" }}
           >
             <Box textAlign={"center"}>

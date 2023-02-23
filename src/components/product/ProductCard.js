@@ -78,6 +78,7 @@ export const ProductCard = ({
         <Link
           to={`/products/categories/${category}/${name}`}
           style={{ textDecoration: "none" }}
+          state={{ id: _id }}
         >
           <img
             src={image}
