@@ -30,12 +30,24 @@ export const fetchHomePageProducts = createAsyncThunk(
 
 export const fetchCategoryProducts = createAsyncThunk(
   "product/fetchCategoryProducts",
-  async (url,{rejectWithValue}) => {
+  async (url, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(`/products/categories/${url}`);
       return data;
     } catch (error) {
-      return rejectWithValue("error during fetching category products")
+      return rejectWithValue("error during fetching category products");
+    }
+  }
+);
+
+export const queryProducts = createAsyncThunk(
+  "product/queryProducts",
+  async (name, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get("/products?name=${name}");
+      return data;
+    } catch (error) {
+      return rejectWithValue("Product not found");
     }
   }
 );
@@ -48,7 +60,8 @@ const productSlice = createSlice({
     error: null,
     selectedProduct: null,
     categories: [],
-    categoryProducts:{},
+    categoryProducts: {},
+    searchResults: [],
   },
   reducers: {
     setSelectedProduct: (state, action) => {
@@ -80,17 +93,24 @@ const productSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
-    builder.addCase(fetchCategoryProducts.pending,(state)=>{
-      state.loading=true;
+    builder.addCase(fetchCategoryProducts.pending, (state) => {
+      state.loading = true;
     });
-    builder.addCase(fetchCategoryProducts.fulfilled,(state,action)=>{
-      state.loading=false;
-      state.categoryProducts=action.payload;
-
+    builder.addCase(fetchCategoryProducts.fulfilled, (state, action) => {
+      state.loading = false;
+      state.categoryProducts = action.payload;
     });
-    builder.addCase(fetchCategoryProducts.rejected,(state,action)=>{
-      state.loading=false;
-      state.error=action.payload ;
+    builder.addCase(fetchCategoryProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(queryProducts.fulfilled, (state, action) => {
+      state.loading = false;
+      state.searchResults = action.payload.products;
+    });
+    builder.addCase(queryProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     });
   },
 });

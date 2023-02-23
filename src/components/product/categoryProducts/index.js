@@ -11,19 +11,27 @@ import { Sort } from "./Sort";
 export const CategoryProducts = () => {
   const { categoryName } = useParams();
   const dispatch = useDispatch();
-  const { products } = useCategoryProducts();
-  const { value:sort, changeQueryValue: changeSort } = useQueryParams("sort");
-  const { value:page, changeQueryValue: changePage } = useQueryParams("page");
+  const { products, totalPages } = useCategoryProducts();
+  const { value: sort, changeQueryValue: changeSort } = useQueryParams("sort");
+  const { value: page, changeQueryValue: changePage } = useQueryParams("page");
   useEffect(() => {
     dispatch(
-      fetchCategoryProducts(`${categoryName}?page=1&size=3&sort=${sort}`)
+      fetchCategoryProducts(`${categoryName}?page=${page}&size=1&sort=${sort}`)
     );
-  }, [categoryName, sort]);
+  }, [categoryName, sort, page]);
+
+  useEffect(() => {
+    changePage("page", 1);
+  }, [sort]);
   return (
     <Box>
-      <Sort sort={sort} changeSort={changeSort}/>
+      <Sort sort={sort} changeSort={changeSort} />
       <CategoryProductList products={products} />
-      <Paginate />
+      <Paginate
+        totalPages={totalPages}
+        currentPage={page}
+        changePage={changePage}
+      />
     </Box>
   );
 };
