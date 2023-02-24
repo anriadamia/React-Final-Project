@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { useCategories } from "../../redux";
+import { useCategories, useProductLoading } from "../../redux";
 import { SidebarHeader } from "./SidebarHeader";
 
 const StyledListItem = styled(ListItem)(() => ({
@@ -18,6 +18,7 @@ const StyledListItem = styled(ListItem)(() => ({
 }));
 
 export const Sidebar = () => {
+  const isSideBarLoading=useProductLoading();
   const sidebarItems = useCategories();
   return (
     <Drawer

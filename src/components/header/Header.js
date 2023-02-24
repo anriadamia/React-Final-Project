@@ -7,6 +7,7 @@ import { BsCart2 } from "react-icons/bs";
 import { useCart } from "../../redux";
 import { CartDrawer } from "./CartDrawer";
 import { useState } from "react";
+import { AiOutlineHome } from "react-icons/ai";
 
 const StyledAppBar = styled(AppBar)(() => ({
   background: "#fff",
@@ -17,7 +18,7 @@ const StyledAppBar = styled(AppBar)(() => ({
 const StyledToolBar = styled(Toolbar)(() => ({
   display: "flex",
   width: "100%",
-  justifyContent: "space-between",
+  justifyContent: "space-evenly",
 }));
 
 const StyledBadge = styled(Badge)(() => ({
@@ -42,7 +43,9 @@ export const Header = () => {
     <Box>
       <StyledAppBar>
         <StyledToolBar>
-          <Link to="/">Home</Link>
+          <Link to="/">
+            <AiOutlineHome size={"35"} color={"#000000	"}></AiOutlineHome>
+          </Link>
           <SearchBar />
           <Usericon />
           <Button onClick={() => setIsCartDrawerOpen(true)}>
